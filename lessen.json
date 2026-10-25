@@ -1,0 +1,7 @@
+{
+  "dagen_vooruit": 10,
+  "lessen": [
+    { "dag": "dinsdag", "tijd": "09:00", "les": "WOD" },
+    { "dag": "vrijdag", "tijd": "09:00", "les": "WOD" }
+  ]
+}
