@@ -1,0 +1,38 @@
+name: Sportbit inschrijven (Sascha)
+
+on:
+  schedule:
+    # Elk uur om 5 over (tijden in UTC). Pas aan als je eigen repo een ander schema heeft.
+    - cron: "5 * * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Alleen testen, niet echt inschrijven (1 = ja)"
+        required: false
+        default: "0"
+
+concurrency:
+  group: sportbit-inschrijven-sascha
+  cancel-in-progress: false
+
+jobs:
+  inschrijven:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installeer requests
+        run: pip install requests
+
+      - name: Schrijf in
+        env:
+          SPORTBIT_URL: ${{ secrets.SPORTBIT_URL }}
+          SPORTBIT_USER: ${{ secrets.SPORTBIT_USER }}
+          SPORTBIT_PASS: ${{ secrets.SPORTBIT_PASS }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || '0' }}
+        run: python sportbit_inschrijven.py
